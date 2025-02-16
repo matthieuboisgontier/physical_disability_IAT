@@ -7,10 +7,10 @@ This repository contains data and an `R` script to compare explicit and implicit
 The script expect SAV and CSV files that are subsequently imported by `R`.
 
 ## Files
-### 1. `Disability_IAT.public.2022-2024.sav.zip`
+### `Disability_IAT.public.2022-2024.sav.zip`
 This file contains data that needs to be unzipped before use. You can unzip it in the same directory as the R script or specify the file path in the script. 
 
-### 2. country-continent.csv
+### country-continent.csv
 This CSV file contains a mapping of countries to their corresponding continents (geographic regions). The R script will import this file and use it to create a new variable, continent, by recoding the country variable.
 
 ## Prerequisites
