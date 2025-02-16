@@ -7,7 +7,7 @@ This repository contains data and an `R` script to compare explicit and implicit
 The script expect SAV and CSV files that are subsequently imported by `R`.
 
 ## Files
-### `Disability_IAT.public.2022-2024.sav.zip`
+### Disability_IAT.public.2022-2024.sav.zip
 This file contains data that needs to be unzipped before use. You can unzip it in the same directory as the R script or specify the file path in the script. 
 
 ### country-continent.csv
