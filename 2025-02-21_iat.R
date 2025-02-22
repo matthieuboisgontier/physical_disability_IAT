@@ -208,6 +208,7 @@ data_iat <- data_iat %>%
   select(all_of(selected_vars))
 
 ### MISSING DATA
+
 # Select only the variables used in the model
 model_vars <- c("D_biep.PhysAbled_Good_all", "occuSelfDetail", "birthSex", "age", 
                 "att_7", "disabled_newvar", "geographic_region", "raceomb_002", "edu_3", "year")
@@ -323,7 +324,7 @@ data_iat$raceomb_002 <- relevel(data_iat$raceomb_002, ref = "8") #white
 data_iat$geographic_region <- relevel(data_iat$geographic_region, ref = "4")
 data_iat$edu_3 <- relevel(data_iat$"edu_3", ref = "Primary & Secondary")
 
-### DESCRIPTIVE RESULTS
+## Descriptive results
 # Age and explicit attitudes as a function of occupation category
 data_iat %>%
   group_by(occuSelfDetail) %>%
@@ -376,7 +377,8 @@ print(geographic_region_counts, n = Inf)
 print(race_counts, n = Inf)
 print(edu_3_counts, n = Inf)
 
-### STATISTICAL MODELS 
+
+### STATISTICAL MODELS ###
 ## Implicit attitudes
 # Implicit: main model
 lm1.implicit <- lm(D_biep.PhysAbled_Good_all ~ occuSelfDetail + birthSex + age_c + att_7_c + disabled_newvar + geographic_region + raceomb_002 + edu_3 + year_c, 
@@ -388,6 +390,7 @@ confint(lm1.implicit )
 lm1.implicit_fig <- lm(D_biep.PhysAbled_Good_all ~ occuSelfDetail + birthSex + age + att_7 + disabled_newvar + geographic_region + raceomb_002 + edu_3 + year, 
                        data = data_iat, na.action=na.omit)
 summary(lm1.implicit_fig)
+plot(allEffects(lm1.implicit_fig))
 
 # Equivalence testing for lm1.implicit: Clinicians vs. other
 tsum_TOST(
@@ -479,7 +482,7 @@ lm1_explicit.rehab_fig <- lm(att_7 ~ birthSex + age + D_biep.PhysAbled_Good_all 
                          subset = (occuSelfDetail == "rehab"))
 summary(lm1_explicit.rehab_fig)
 
-### FIGURES
+### FIGURES ###
 ## Figure 1A
 # Compute effects
 effects_list <- allEffects(lm1.implicit_fig)
@@ -521,13 +524,15 @@ ggplot(effects_df, aes(x = occuSelfDetail, y = fit)) +
 coefs <- tidy(lm1.implicit_fig, conf.int = TRUE)  
 
 # Exclude intercept and filter for significant effects (p < 0.05)
-coefs <- coefs[coefs$term != "(Intercept)" & coefs$p.value < 0.05, ]  
+#coefs <- coefs[coefs$term != "(Intercept)" & coefs$p.value < 0.05, ]  
+coefs_all <- coefs[coefs$term != "(Intercept)", ]
 
 # Reorder terms by estimate value (smallest to largest)
-coefs$term <- reorder(coefs$term, coefs$estimate)
+#coefs$term <- reorder(coefs$term, coefs$estimate)
+coefs_all$term <- reorder(coefs_all$term, coefs_all$estimate)
 
 # Plot coefficients
-ggplot(coefs, aes(x = term, y = estimate)) +
+ggplot(coefs_all, aes(x = term, y = estimate)) +
   geom_point(size = 3, color = "blue") +  # Regression coefficients
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +  # 95% CI
   geom_hline(yintercept = 0, linetype = "dashed", color = "black") +  # Reference line at 0
@@ -543,13 +548,15 @@ ggplot(coefs, aes(x = term, y = estimate)) +
 coefs <- tidy(lm1.explicit_fig, conf.int = TRUE)  
 
 # Exclude intercept and filter for significant effects (p < 0.05)
-coefs <- coefs[coefs$term != "(Intercept)" & coefs$p.value < 0.05, ]  
+#coefs <- coefs[coefs$term != "(Intercept)" & coefs$p.value < 0.05, ]  
+coefs_all <- coefs[coefs$term != "(Intercept)", ]
 
 # Reorder terms by estimate value (smallest to largest)
-coefs$term <- reorder(coefs$term, coefs$estimate)
+#coefs$term <- reorder(coefs$term, coefs$estimate)
+coefs_all$term <- reorder(coefs_all$term, coefs_all$estimate)
 
 # Plot coefficients
-ggplot(coefs, aes(x = term, y = estimate)) +
+ggplot(coefs_all, aes(x = term, y = estimate)) +
   geom_point(size = 3, color = "red") +  # Regression coefficients
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +  # 95% CI
   geom_hline(yintercept = 0, linetype = "dashed", color = "black") +  # Reference line at 0
@@ -707,8 +714,8 @@ p1_p2 <- ggplot(eff_age, aes(x = age, y = fit, color = model, fill = model)) +
   scale_color_manual(values = custom_colors_p1_p2, name = "Model") +  
   scale_fill_manual(values = custom_colors_p1_p2, name = "Model") +  
   scale_y_continuous(
-    breaks = seq(0.4, 0.9, by = 0.2),  # Set fixed breaks
-    limits = c(ymin_p1_p2, ymax_p1_p2),  # Enforce range but allow expansion for CI
+    breaks = seq(0.4, 1.1, by = 0.2),  # Set fixed breaks
+    limits = c(0.4,  1.1),  # Enforce range but allow expansion for CI
     expand = c(0, 0)
   ) +
   labs(title = "Implicit Attitudes - Age (Clinicians vs. Rehab)", x = "Age", y = "Effect Size") +
@@ -722,8 +729,8 @@ p3_p4 <- ggplot(eff_likert, aes(x = att_7, y = fit, color = model, fill = model)
   scale_color_manual(values = custom_colors_p3_p4, name = "Model") +  
   scale_fill_manual(values = custom_colors_p3_p4, name = "Model") +  
   scale_y_continuous(
-    breaks = seq(0.2, 0.7, by = 0.2),
-    limits = c(ymin_p3_p4, ymax_p3_p4),
+    breaks = seq(0.2, 0.9, by = 0.2),
+    limits = c(0.2, 0.9),
     expand = c(0, 0)
   ) +
   labs(title = "Implicit Attitudes - Likert (Clinicians vs. Rehab)", x = "Attitude", y = "Effect Size") +
