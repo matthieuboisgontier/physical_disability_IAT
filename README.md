@@ -4,14 +4,11 @@
 This repository contains data and an `R` script to compare explicit and implicit attitudes toward physical disability in clinicians, rehabilitation assistants, and individuals in other occupations using the [Physical Disability IAT dataset](https://doi.org/10.17605/OSF.IO/Y9HIQ), collected from 2022 to 2024 via the [Project Implicit](https://implicit.harvard.edu/implicit/selectatest.html) and made available on the Open Science Framework (OSF) under the CC0 1.0 Universal license.
 
 ## Data
-The script expect SAV and CSV files that are subsequently imported by `R`.
+The script expect SAV file that is subsequently imported by `R`.
 
-## Files
+## File
 ### Disability_IAT.public.2022-2024.sav.zip
 This file contains data that needs to be unzipped before use. You can unzip it in the same directory as the R script or specify the file path in the script. 
-
-### country-continent.csv
-This CSV file contains a mapping of countries to their corresponding continents (geographic regions). The R script will import this file and use it to create a new variable, continent, by recoding the country variable.
 
 ## Prerequisites
 ### R version
