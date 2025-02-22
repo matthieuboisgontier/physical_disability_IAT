@@ -110,7 +110,6 @@ data_iat <- data_iat %>%
     )
   )
 
-
 # Data exploration
 colnames(data_iat)
 nrow(data_iat)
@@ -209,7 +208,6 @@ data_iat <- data_iat %>%
   select(all_of(selected_vars))
 
 ### MISSING DATA
-
 # Select only the variables used in the model
 model_vars <- c("D_biep.PhysAbled_Good_all", "occuSelfDetail", "birthSex", "age", 
                 "att_7", "disabled_newvar", "geographic_region", "raceomb_002", "edu_3", "year")
@@ -325,7 +323,7 @@ data_iat$raceomb_002 <- relevel(data_iat$raceomb_002, ref = "8") #white
 data_iat$geographic_region <- relevel(data_iat$geographic_region, ref = "4")
 data_iat$edu_3 <- relevel(data_iat$"edu_3", ref = "Primary & Secondary")
 
-## Descriptive results
+### DESCRIPTIVE RESULTS
 # Age and explicit attitudes as a function of occupation category
 data_iat %>%
   group_by(occuSelfDetail) %>%
@@ -378,8 +376,7 @@ print(geographic_region_counts, n = Inf)
 print(race_counts, n = Inf)
 print(edu_3_counts, n = Inf)
 
-
-### STATISTICAL MODELS ###
+### STATISTICAL MODELS 
 ## Implicit attitudes
 # Implicit: main model
 lm1.implicit <- lm(D_biep.PhysAbled_Good_all ~ occuSelfDetail + birthSex + age_c + att_7_c + disabled_newvar + geographic_region + raceomb_002 + edu_3 + year_c, 
@@ -482,7 +479,7 @@ lm1_explicit.rehab_fig <- lm(att_7 ~ birthSex + age + D_biep.PhysAbled_Good_all 
                          subset = (occuSelfDetail == "rehab"))
 summary(lm1_explicit.rehab_fig)
 
-### FIGURES ###
+### FIGURES
 ## Figure 1A
 # Compute effects
 effects_list <- allEffects(lm1.implicit_fig)
@@ -736,4 +733,3 @@ p3_p4 <- ggplot(eff_likert, aes(x = att_7, y = fit, color = model, fill = model)
 # Arrange plots
 final_plot <- p1_p2 / p3_p4
 print(final_plot)
-
