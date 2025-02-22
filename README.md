@@ -19,6 +19,8 @@ The script assume/require the following packages to be installed in `R`:
 - [`haven`](https://github.com/hadley/haven)
 - [`here`](https://github.com/jennybc/here)
 - [`dplyr`](https://github.com/tidyverse/dplyr)
+- [`tidyr`](https://github.com/tidyverse/tidyr)
+- [`stringr`](https://github.com/tidyverse/stringr)
 - [`effects`](https://github.com/cran/effects)
 - [`TOSTER`](https://github.com/MHaug/TOSTER)
 - [`ggplot2`](https://github.com/tidyverse/ggplot2)
