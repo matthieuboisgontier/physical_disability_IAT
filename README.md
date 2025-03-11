@@ -6,10 +6,6 @@ This repository contains data and an `R` script to compare explicit and implicit
 ## Data
 The script expect SAV file that is subsequently imported by `R`.
 
-## File
-### Disability_IAT.public.2022-2024.sav.zip
-This file contains data that needs to be unzipped before use. You can unzip it in the same directory as the R script or specify the file path in the script. 
-
 ## Prerequisites
 ### R version
 4.4.1 or higher
